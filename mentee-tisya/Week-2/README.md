@@ -1,18 +1,21 @@
-# Week 2 — [Your Name]
+# Week 2 — Tisya Agarwal
 
 ## What this code does
-<!-- Describe your project.v in your own words. What does it draw?
-     How does it react to input, if at all? -->
+This code is the very beginning of my journey of creating a kaleidoscopic visual using verilog.
+It is a basic design of a y axis symmetrical design which switches colour on a toggle.
+It consists of equally distanced squares on both left and right side.
 
 
 
 ## Exercises implemented
 <!-- Check off what you got working, and briefly note how -->
 
-- [ ] Centering coordinates
-- [ ] Mirroring across axes
-- [ ] Button edge detection
+- [done] Centering coordinates
+- [done] Mirroring across axes
+- [done] Button edge detection
 
 ## Notes / blockers
-<!-- Anything that took a while to figure out, bugs you hit,
-     or things you're still unsure about -->
+I had a little problem in understanding the signed subtraction method for making the symmetrical design but figured it eventually
+I also learnt about the button logic where we had to use two registers, where 1 holds the actual toggle value and the second register holds the past memory of register 1.
+These work very differently than normal logic, as they happen simultaneously and not sequentially.
+

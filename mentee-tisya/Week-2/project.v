@@ -70,8 +70,48 @@ module tt_um_vga_example(
   // next — it's fine if the screen looks very simple while testing.
   // ---------------------------------------------------------
 
-  assign R = video_active ? 2'b00 : 2'b00;
-  assign G = video_active ? 2'b00 : 2'b00;
-  assign B = video_active ? 2'b00 : 2'b00;
+  // Task 1
+  
+  wire signed [10:0] x_in = $signed({1'b0, pix_x});
+  wire signed [10:0] y_in = $signed({1'b0, pix_y});
+
+  wire signed [10:0] x_mid = x_in - 11'sd320;
+  wire signed [10:0] y_mid = y_in - 11'sd240;
+
+  wire left_side = (x_mid < 0);
+
+  // Task 2
+
+  wire [9:0] x_abs = (x_mid < 0) ? -x_mid : x_mid;
+  wire [9:0] y_abs = (y_mid < 0) ? -y_mid : y_mid;
+  wire draw = (x_abs[5] == 1'b1) || (y_abs[5] == 1'b1);
+
+  // Task 3
+  
+  reg btn_old; 
+  reg state;   
+
+  always @(posedge clk) begin
+  if (rst_n == 1'b0) begin
+  btn_old <= 1'b0;
+  state   <= 1'b0;
+  end else begin
+      
+  if (ui_in[0] == 1'b1 && btn_old == 1'b0) begin
+  state <= ~state; 
+  end
+      
+  btn_old <= ui_in[0]; 
+  end
+  end
+
+  wire b_on = (left_side == 1'b1) || (draw == 1'b1);
+  wire r_on = (state == 1'b0) ? ((left_side == 1'b1) || (draw == 1'b0)) : ((left_side == 1'b0) || (draw == 1'b1));
+  wire g_on = (state == 1'b0) ? ((left_side == 1'b0) || (draw == 1'b1)) : ((left_side == 1'b1) || (draw == 1'b0));
+
+  assign R = (video_active && r_on) ? 2'b11 : 2'b00;
+  assign G = (video_active && g_on) ? 2'b10 : 2'b00;
+  assign B = (video_active && b_on) ? 2'b10 : 2'b00;
+
 
 endmodule
