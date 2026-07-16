@@ -1,0 +1,35 @@
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Logs
+*.log
+
+# GTKWave
+*.vcd
+*.fst
+
+# Verilator
+obj_dir/
+
+# Yosys
+*.il
+*.json
+
+# Temporary files
+*.tmp
+*.bak
