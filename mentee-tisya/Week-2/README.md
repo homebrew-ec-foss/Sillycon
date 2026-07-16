@@ -10,9 +10,9 @@ It consists of equally distanced squares on both left and right side.
 ## Exercises implemented
 <!-- Check off what you got working, and briefly note how -->
 
-- [done] Centering coordinates
-- [done] Mirroring across axes
-- [done] Button edge detection
+- [x] Centering coordinates
+- [x] Mirroring across axes
+- [x] Button edge detection
 
 ## Notes / blockers
 I had a little problem in understanding the signed subtraction method for making the symmetrical design but figured it eventually
