@@ -76,10 +76,11 @@ module tt_um_vga_example(
 
 
   // Task-1 : Tiling the screen with squares
-  wire [5:0] tile_x;
-  wire [5:0] tile_y;
+  wire [6:0] tile_x;
+  wire [6:0] tile_y;
 
-  assign tile_x = pix_x % 80;
+  // Repeat the pattern every 80 pixels to create 80x80 pixel tiles
+  assign tile_x = pix_x % 80;  
   assign tile_y = pix_y % 80;
 
   // wire square;
@@ -97,6 +98,7 @@ module tt_um_vga_example(
   wire signed [6:0] dx;
   wire signed [6:0] dy;
 
+  // Find the distance from the center of the tile
   assign dx = tile_x - 40;
   assign dy = tile_y - 40;
 
@@ -107,10 +109,10 @@ module tt_um_vga_example(
   assign abs_dy = dy < 0 ? -dy : dy;
 
   wire [6:0] dist_diamond;
-  assign dist_diamond = abs_dx + abs_dy;
+  assign dist_diamond = abs_dx + abs_dy;  // Calculate the Manhattan distance
 
   wire diamond;
-  assign diamond = (dist_diamond < 20);
+  assign diamond = (dist_diamond < 20);  // Draw the diamond using a threshold of 20 pixels
 
   // Circular
   wire [5:0] max;
@@ -120,10 +122,10 @@ module tt_um_vga_example(
   assign min = (abs_dx > abs_dy) ? abs_dy : abs_dx;
 
   wire [6:0] dist_circle;
-  assign dist_circle = max + (min / 2);
+  assign dist_circle = max + (min / 2); // Approximate the circular distance
 
   wire circle;
-  assign circle = (dist_circle < 20);
+  assign circle = (dist_circle < 20);  // Draw the circle using the same threshold
 
   wire diamond_pix;
   wire circle_pix;
@@ -153,10 +155,11 @@ module tt_um_vga_example(
   assign blend = counter[5:2];
 
   wire [10:0] dist_morph;
-  assign dist_morph = ((15 - blend) * dist_diamond + blend * dist_circle) / 15;  
+  // Blend the diamond and circle distance metrics
+  assign dist_morph = ((15 - blend) * dist_diamond + blend * dist_circle) / 15;
 
   wire morph;
-  assign morph = (dist_morph < 20);                
+  assign morph = (dist_morph < 20);  // Draw the blended shape using the same threshold              
 
 endmodule
 
