@@ -15,6 +15,4 @@ It creates diamonds and circles on the screen. The code draws static diamonds on
 - [x] Blending/animating between metrics over time  -  Used frame counter to blend the shapes over time.
 
 ## Notes / blockers
-<!-- Anything that took a while to figure out, bugs you hit,
-     or things you're still unsure about -->
 I was a little confused about how to blend the two shapes to create a morphing effect and it took some time for me to get it. I also had to understand how the frame counter controls changes over time. I tried changing different tile sizes to find the one that fits the screen properly, as tile size of 64 didn't fit well which I had chosen initially.
