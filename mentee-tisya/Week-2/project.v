@@ -72,12 +72,13 @@ module tt_um_vga_example(
 
   // Task 1
   
-  wire signed [10:0] x_in = $signed({1'b0, pix_x});
-  wire signed [10:0] y_in = $signed({1'b0, pix_y});
+  wire signed [10:0] x_in = $signed({1'b0, pix_x}); // Making x a signed number so we can do negative math
+  wire signed [10:0] y_in = $signed({1'b0, pix_y}); // Making y a signed number so we can do negative math
 
-  wire signed [10:0] x_mid = x_in - 11'sd320;
-  wire signed [10:0] y_mid = y_in - 11'sd240;
-
+  wire signed [10:0] x_mid = x_in - 11'sd320; // Shifting x so the middle of the screen (320) becomes our new 0 (left is negative, right is positive)
+  wire signed [10:0] y_mid = y_in - 11'sd240; // Shifting y so the middle of the screen (240) becomes our new 0 (top is negative, bottom is positive)
+  // 11'sd320 and 11'sd240 signify 11 bit long signed decimals so that the wires have enough capacity to work with the long signed decimal numbers. 
+  
   wire left_side = (x_mid < 0);
 
   // Task 2
