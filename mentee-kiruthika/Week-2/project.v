@@ -73,8 +73,93 @@ module tt_um_vga_example(
   // next — it's fine if the screen looks very simple while testing.
   // ---------------------------------------------------------
 
-  assign R = video_active ? 2'b00 : 2'b00;
-  assign G = video_active ? 2'b00 : 2'b00;
-  assign B = video_active ? 2'b00 : 2'b00;
+
+
+  // Task-1 : Tiling the screen with squares
+  wire [6:0] tile_x;
+  wire [6:0] tile_y;
+
+  // Repeat the pattern every 80 pixels to create 80x80 pixel tiles
+  assign tile_x = pix_x % 80;  
+  assign tile_y = pix_y % 80;
+
+  // wire square;
+  // assign square = (tile_x >= 6 && tile_x < 34 && tile_y >= 6 && tile_y < 34);
+
+  // assign R = video_active && square ? 2'b10 : 2'b00;
+  // assign G = video_active && square ? 2'b01 : 2'b00;
+  // assign B = video_active && square ? 2'b01 : 2'b00;
+
+
+
+  // Task-2 : Implement two distance metrics from the center of a tile and compare
+
+  // Diamond
+  wire signed [6:0] dx;
+  wire signed [6:0] dy;
+
+  // Find the distance from the center of the tile
+  assign dx = tile_x - 40;
+  assign dy = tile_y - 40;
+
+  wire [5:0] abs_dx;
+  wire [5:0] abs_dy;
+
+  assign abs_dx = dx < 0 ? -dx : dx;
+  assign abs_dy = dy < 0 ? -dy : dy;
+
+  wire [6:0] dist_diamond;
+  assign dist_diamond = abs_dx + abs_dy;  // Calculate the Manhattan distance
+
+  wire diamond;
+  assign diamond = (dist_diamond < 20);  // Draw the diamond using a threshold of 20 pixels
+
+  // Circular
+  wire [5:0] max;
+  wire [5:0] min;
+
+  assign max = (abs_dx > abs_dy) ? abs_dx : abs_dy;
+  assign min = (abs_dx > abs_dy) ? abs_dy : abs_dx;
+
+  wire [6:0] dist_circle;
+  assign dist_circle = max + (min / 2); // Approximate the circular distance
+
+  wire circle;
+  assign circle = (dist_circle < 20);  // Draw the circle using the same threshold
+
+  wire diamond_pix;
+  wire circle_pix;
+
+  assign diamond_pix = (pix_x < 320) && diamond;
+  assign circle_pix  = (pix_x >= 320) && morph;
+
+  assign R = video_active && diamond_pix ? 2'b10 : video_active && circle_pix ? 2'b11 : 2'b0;
+  assign G = video_active && diamond_pix ? 2'b10 : video_active && circle_pix ? 2'b01 : 2'b00;
+  assign B = video_active && diamond_pix ? 2'b11 : video_active && circle_pix ? 2'b01 : 2'b01;
+
+
+
+  // Task-3 : Use the frame counter to blend/interpolate
+
+  reg [9:0] counter;
+
+  always @(posedge vsync or negedge rst_n) 
+  begin
+    if (~rst_n)
+      counter <= 0;
+    else
+      counter <= counter + 1;
+  end
+
+  wire [3:0] blend;
+  assign blend = counter[5:2];
+
+  wire [10:0] dist_morph;
+  // Blend the diamond and circle distance metrics
+  assign dist_morph = ((15 - blend) * dist_diamond + blend * dist_circle) / 15;
+
+  wire morph;
+  assign morph = (dist_morph < 20);  // Draw the blended shape using the same threshold              
 
 endmodule
+
