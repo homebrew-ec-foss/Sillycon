@@ -1,4 +1,4 @@
-# Week 2 — Tisya Agarwal
+# Week 3 — Tisya Agarwal
 
 ## What this code does
 This code is a more advanced version from my previous attempt to make a kaleidoscopic visual using verilog.
