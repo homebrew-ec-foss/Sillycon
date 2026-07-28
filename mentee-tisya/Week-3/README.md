@@ -11,9 +11,13 @@ A few things like the single button toggle has not been implemented into this co
 <!-- Check off what you got working, and briefly note how -->
 
 - [x] Combine your Week 2 pieces (centered coordinates, mirroring) into a proper multi-segment kaleidoscope. Extend from a     single-axis mirror to a repeating symmetric pattern.
-- [] Use the button to change the color palette or pattern on each press, not just toggle a single state.
+- [ ] Use the button to change the color palette or pattern on each press, not just toggle a single state.
 
 - [x] Keep testing incrementally. Get one symmetric segment working first before expanding it into the complete pattern.
+
+## How this works:
+The 8-fold symmetry logic:
+By mirroring any negative values into the positive range, the system first creates four identical, mirrored quadrants across the horizontal and vertical axes. It then compares the coordinates within each quadrant to reflect the image along the diagonal line, resulting in eight perfect triangular slices.
 
 ## Notes / blockers
 I have to still implement button toggle to switch to different colours and shapes.
