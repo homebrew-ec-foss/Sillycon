@@ -61,10 +61,6 @@ wire [6:0] abs_dy;
 assign abs_dx = dx < 0 ? -dx : dx;
 assign abs_dy = dy < 0 ? -dy : dy;
 
-//Diamond
-wire [6:0] dist_diamond;
-assign dist_diamond = abs_dx + abs_dy;  // Calculate the Manhattan distance
-
 // Animation frame counter
 reg [9:0] anim_counter;
 always @(posedge vsync or negedge rst_n)
