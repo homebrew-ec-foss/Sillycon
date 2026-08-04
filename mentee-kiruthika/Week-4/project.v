@@ -24,7 +24,7 @@ module tt_um_vga_example(
   assign uio_out = 0;
   assign uio_oe  = 0;
   // Suppress unused signals warning
-  wire _unused_ok = &{ena, uio_in};
+  wire _unused_ok = &{ena, uio_in, ui_in[7:1]};
   hvsync_generator hvsync_gen(
     .clk(clk),
     .reset(~rst_n),
