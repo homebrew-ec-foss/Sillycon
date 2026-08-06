@@ -17,8 +17,6 @@ module tt_um_kaleidoscope (
   wire reset;
   assign reset = ~rst_n;
 
-  
- 
   wire mode_0_btn = ui_in[0]; // Button 0: Normal mode (rings twist outward)
   wire mode_1_btn = ui_in[1]; // Button 1: Pulse mode (rings pulse inward)
   wire mode_2_btn = ui_in[2]; // Button 2: Spin mode (facets spin, rings stay put)
@@ -31,24 +29,31 @@ module tt_um_kaleidoscope (
   // (Note: dir_reverse wire can be mapped if needed, default step kept at +1)
   wire signed [15:0] dir_step = 16'sd1;
 
-  
-  // level-sensitive button block
-  // This combinational block converts active button presses directly into mode_sel.
-  // No edge detection 
-  // If multiple buttons are pressed at once, it uses priority (mode 3 > 2 > 1 > 0).
-  // If no buttons are pressed, it defaults to mode 0.
-  
-  reg [1:0] mode_sel;
+  // sequential button block
+  // Stores mode_sel in a register and uses positive edge detection (btn_last)
+  // so mode changes only occur on fresh button presses.
+  // Priority order when pressed simultaneously: Mode 3 > 2 > 1 > 0.
 
-  always @(*) begin
-    if (mode_3_btn) begin
-      mode_sel = 2'b11; // Mode 3 active
-    end else if (mode_2_btn) begin
-      mode_sel = 2'b10; // Mode 2 active
-    end else if (mode_1_btn) begin
-      mode_sel = 2'b01; // Mode 1 active
+  //week 4 fix
+  reg [1:0] mode_sel;
+  reg [3:0] btn_last;
+
+  always @(posedge clk) begin
+    if (reset) begin
+      mode_sel <= 2'b00;
+      btn_last <= 4'b0000;
     end else begin
-      mode_sel = 2'b00; // Default to Mode 0 (also selected when mode_0_btn is high)
+      btn_last <= ui_in[3:0];
+
+      if (mode_3_btn && !btn_last[3]) begin
+        mode_sel <= 2'b11; // Mode 3 active
+      end else if (mode_2_btn && !btn_last[2]) begin
+        mode_sel <= 2'b10; // Mode 2 active
+      end else if (mode_1_btn && !btn_last[1]) begin
+        mode_sel <= 2'b01; // Mode 1 active
+      end else if (mode_0_btn && !btn_last[0]) begin
+        mode_sel <= 2'b00; // Default to Mode 0 (also selected when mode_0_btn is high)
+      end
     end
   end
 
@@ -144,10 +149,10 @@ module tt_um_kaleidoscope (
   // messed with numbers until it looked cool
   //
   // mode_sel changes HOW the rings/facets move, not just the color:
-  //   mode 0: normal, rings twist outward like before
-  //   mode 1: rings twist the other way, so it looks like it pulses inward
-  //   mode 2: rings stay still and the facets spin instead (kinda dizzy)
-  //   mode 3: everything twists together at once for a fast shimmer
+  //    mode 0: normal, rings twist outward like before
+  //    mode 1: rings twist the other way, so it looks like it pulses inward
+  //    mode 2: rings stay still and the facets spin instead (kinda dizzy)
+  //    mode 3: everything twists together at once for a fast shimmer
   // u and v still get built the same mirrored way as before (abs value,
   // then bigger one first) so no matter which mode is picked it still
   // repeats around the center like a real kaleidoscope
