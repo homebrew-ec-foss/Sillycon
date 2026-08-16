@@ -1,0 +1,12 @@
+What I did this week:
+- I decided on the animation stages inside each phase of my project.
+- I continued building my project based on the tiling and shape generation work from Week-2.
+- Worked on generating triangles in each tile using the coordinates relative to the tile centre.
+- Added different animation stages where the triangles grow, pulsate, drift across the screen and show moving rainbow colour bands.
+- I learnt how frame counters can be used to control different stages of an animation.
+- Added a smaller triangle inside the main triangle which continuously pulsates.
+- Also added a column-based pulse offset so that the triangles in different columns pulsate at different time.
+- I learnt how changing the coordinates over time can create movement in a tiled pattern.
+- Learnt how to reuse the same shape calculations while changing parameters such as size, position and colour to create different effects.
+- Tested the different parts of the animation separately and then combined them.
+- I completed the main triangle animation, but the button-controlled phase switching was left for the next week.d
