@@ -13,5 +13,7 @@ This is the final version of my kaleidoscopic visual code for the project Sillyc
 ## How this works:
 This code can be run in this website:  https://vga-playground.com/
 
-## Notes / blockers
-None
+
+<img width="800" height="800" alt="final" src="https://github.com/user-attachments/assets/654efcb6-eb59-4bd9-a742-215a5810dee9" />
+
+
