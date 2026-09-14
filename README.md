@@ -30,6 +30,7 @@ Interested in how the animation was built? [Click here to explore the project](h
 
 ## Demo
 
+https://github.com/user-attachments/assets/5d566085-4b79-4995-92a7-235599003a34
 
 
 ## Try It Yourself
