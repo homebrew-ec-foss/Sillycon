@@ -17,6 +17,7 @@ Creates an interactive eight-fold kaleidoscope pattern directly in hardware. The
 Interested in how the kaleidoscope was built? [Click here to explore the project](https://github.com/homebrew-ec-foss/Sillycon/tree/main/mentee-tisya) 
 
 ## Demo
+<img width="800" height="800" alt="final" src="https://github.com/user-attachments/assets/79b21142-0483-4b32-adf6-3c403b44beac" />
 
 
 
